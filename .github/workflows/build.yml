@@ -28,7 +28,13 @@ jobs:
             python3
 
       - name: Build RM3 planner
-        run: ./rm3_build.sh
+        run: |
+          ./rm3_build.sh
+          if [ ! -f planner.2026.pdf ]; then
+            echo "=== Build log ===" && cat /tmp/planner.2026.log || true
+            echo "=== out/ contents ===" && ls -la out/ || true
+            exit 1
+          fi
 
       - name: Upload PDF
         uses: actions/upload-artifact@v4
