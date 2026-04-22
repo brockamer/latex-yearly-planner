@@ -27,9 +27,11 @@ jobs:
             uuid-runtime \
             python3
           mkdir -p ~/.local/share/fonts
-          curl -fL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip" -o /tmp/FiraCode.zip
+          curl -fL "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/FiraCode.zip" -o /tmp/FiraCode.zip
           unzip /tmp/FiraCode.zip -d ~/.local/share/fonts/
           fc-cache -fv
+          echo "--- installed Fira fonts ---"
+          fc-list | grep -i fira
 
       - name: Generate TeX
         env:
