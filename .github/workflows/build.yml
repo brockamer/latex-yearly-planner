@@ -27,14 +27,18 @@ jobs:
             uuid-runtime \
             python3
 
-      - name: Build RM3 planner
+      - name: Generate TeX
+        env:
+          PLANNER_YEAR: "2026"
         run: |
-          ./rm3_build.sh
-          if [ ! -f planner.2026.pdf ]; then
-            echo "=== Build log ===" && cat /tmp/planner.2026.log || true
-            echo "=== out/ contents ===" && ls -la out/ || true
-            exit 1
-          fi
+          go run cmd/plannergen/plannergen.go \
+            --config cfg/base.yaml,cfg/template_months_on_side.yaml,cfg/rm3.base.yaml,cfg/rm3.mos.default.yml,cfg/rm3.mos.default.dailycal.yaml
+
+      - name: Compile PDF
+        run: |
+          xelatex -file-line-error -interaction=nonstopmode -output-directory=./out out/rm3.mos.default.dailycal.tex
+          xelatex -file-line-error -interaction=nonstopmode -output-directory=./out out/rm3.mos.default.dailycal.tex
+          cp out/rm3.mos.default.dailycal.pdf planner.2026.pdf
 
       - name: Upload PDF
         uses: actions/upload-artifact@v4
