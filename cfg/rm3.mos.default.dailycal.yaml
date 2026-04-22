@@ -2,8 +2,8 @@ calafterschedule: true
 
 layout:
   numbers:
-    dailybottomhour: 7
-    dailytophour: 22
+    dailybottomhour: 4
+    dailytophour: 20
 
   lengths:
     headersidecellheight: "[1.35ex]"
